@@ -238,7 +238,8 @@ void visuals::OnPaintTraverse(C_BaseEntity* local)
 		if (entity->IsDormant())
 			continue;
 
-		
+		if (g_Options.Misc.radaringame)
+			*(char*)((DWORD)(entity)+offsetz.DT_BaseEntity.m_bSpotted) = 1;
 
 		player_info_t pinfo;
 		Vector max = entity->GetCollideable()->OBBMaxs();
@@ -569,8 +570,6 @@ void visuals::OnPaintTraverse(C_BaseEntity* local)
 			{
 				BulletTrace(entity, Color(int(g_Options.Colors.BulletTraceColor[0] * 255.f), int(g_Options.Colors.BulletTraceColor[1] * 255.f), int(g_Options.Colors.BulletTraceColor[2] * 255.f)));
 			}
-			if (g_Options.Misc.radaringame)
-				*entity->IsSpottedPtr() = true;
 //			if (g_Options.Visuals.AmmoBox)
 //			{
 //				AmmoBox(rect, entity, pColor);
