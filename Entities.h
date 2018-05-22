@@ -485,7 +485,6 @@ enum CSGOHitboxID : int
 {
 	Head = 0,
 	Neck,
-	LowerNeck,
 	Pelvis,
 	Stomach,
 	LowerChest,
