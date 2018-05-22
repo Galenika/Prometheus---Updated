@@ -590,7 +590,7 @@ bool legitbot::get_hitbox(C_BaseEntity *local, C_BaseEntity *entity, Vector &des
 	}
 	else
 	{
-		kek = { (int)CSGOHitboxID::Head, (int)CSGOHitboxID::Chest,(int)CSGOHitboxID::Neck, (int)CSGOHitboxID::LowerNeck, (int)CSGOHitboxID::Stomach };
+		kek = { (int)CSGOHitboxID::Head, (int)CSGOHitboxID::Chest, (int)CSGOHitboxID::Neck, (int)CSGOHitboxID::Stomach };
 	}
 
 
