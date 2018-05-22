@@ -828,7 +828,7 @@ public:
 
 	float GetInaccuracy() {
 		typedef float(__thiscall* oInaccuracy)(PVOID);
-		return call_vfunc< oInaccuracy >(this, 470)
+		return call_vfunc< oInaccuracy >(this, 468)
 			(this);
 	}
 
@@ -836,12 +836,12 @@ public:
 	float GetSpread() {
 		if (!this) return 0;
 		typedef float(__thiscall* tFunc)(void*);
-		return call_vfunc<tFunc>(this, 439)(this);
+		return call_vfunc<tFunc>(this, 437)(this);
 	}
 
 
 	void UpdateAccuracyPenalty(CBaseCombatWeapon *pWeapon) {
-		DWORD dwUpdateVMT = (*reinterpret_cast< PDWORD_PTR* >(pWeapon))[471];
+		DWORD dwUpdateVMT = (*reinterpret_cast< PDWORD_PTR* >(pWeapon))[469];
 		return ((void(__thiscall*)(CBaseCombatWeapon*)) dwUpdateVMT)(pWeapon);
 	}
 
