@@ -851,7 +851,7 @@ public:
 		if (!this)
 			return nullptr;
 		typedef CSWeaponInfo*(__thiscall* tGetCSWpnData)(void*);
-		return call_vfunc<tGetCSWpnData>(this, 447)(this);
+		return call_vfunc<tGetCSWpnData>(this, 445)(this);
 	}
 
 	bool IsInReload()
