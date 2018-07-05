@@ -205,20 +205,23 @@ bool isKnife(int id)
 
 void GloveChanger()
 {
-	C_BaseEntity *local = g_EntityList->GetClientEntity(g_Engine->GetLocalPlayer());
+	auto local_id = g_Engine->GetLocalPlayer();
+	if (!local_id) return;
+
 	player_info_t localPlayerInfo;
-	if (!g_Engine->GetPlayerInfo(g_Engine->GetLocalPlayer(), &localPlayerInfo)) return;
+	if (!g_Engine->GetPlayerInfo(local_id, &localPlayerInfo)) return;
 
+	C_BaseEntity* local = (C_BaseEntity*)g_EntityList->GetClientEntity(local_id);
+	if (!local) return;
 
-	CBaseHandle* wearables = (CBaseHandle*)local->GetWearables(); // auto wearables = local->GetWearables();
+	auto wearables = local->GetWearables();
+	if (!wearables) return;
 
 	static CBaseHandle glove_handle = 0;
-
 	auto glove = reinterpret_cast<CGloves*>(g_EntityList->GetClientEntityFromHandle(wearables[0]));
 
-	if (!glove) // There is no glove
+	if (!glove)
 	{
-		// Try to get our last created glove
 		auto our_glove = reinterpret_cast<CGloves*>(g_EntityList->GetClientEntityFromHandle(glove_handle));
 
 		if (our_glove) // Our glove still exists
@@ -230,17 +233,13 @@ void GloveChanger()
 
 	if (!local->IsAlive())
 	{
-		// We are dead but we have a glove, destroy it
 		if (glove)
 		{
 			glove->SetDestroyedOnRecreateEntities();
 			glove->Release();
 		}
-
 		return;
 	}
-
-
 
 	if (!glove)
 	{
@@ -252,7 +251,7 @@ void GloveChanger()
 		{
 			auto m_Index = iEnt | (iSerialNumber << 16);
 			glove_handle = m_Index;
-			*(DWORD*)((DWORD)local + offsetz.DT_BaseCombatCharacter.m_hMyWearables) = m_Index;
+			*(DWORD*)((DWORD)local + NetVarManager->GetOffset("DT_BaseCombatCharacter", "m_hMyWearables")) = m_Index;
 			glove = (CGloves*)g_EntityList->GetClientEntity(iEnt);
 		}
 
@@ -265,8 +264,6 @@ void GloveChanger()
 			set_abs_origin_fn(glove, new_pos);
 		}
 	}
-
-
 
 	*reinterpret_cast<int*>(uintptr_t(glove) + 0x64) = -1;
 
