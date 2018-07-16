@@ -82,35 +82,45 @@ namespace handlers
 
 	HRESULT __stdcall Hooked_EndScene(IDirect3DDevice9* pDevice)
 	{
-		
-		pDevice->SetRenderState(D3DRS_COLORWRITEENABLE, 0xFFFFFFFF);
+		static auto wanted_ret_address = _ReturnAddress();
+		if (_ReturnAddress() == wanted_ret_address)
+		{
+			DWORD colorwrite, srgbwrite;
+			pDevice->GetRenderState(D3DRS_COLORWRITEENABLE, &colorwrite);
+			pDevice->GetRenderState(D3DRS_SRGBWRITEENABLE, &srgbwrite);
+			pDevice->SetRenderState(D3DRS_COLORWRITEENABLE, 0xffffffff);
+			pDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, false);
 
-			if (!G::d3dinit) 
+			ImGuiStyle &style = ImGui::GetStyle();
+
+			if (!G::d3dinit)
 			{
 				prometheus::GUI_Init(window, pDevice);
 			}
 
-
-			ImGui::GetIO().MouseDrawCursor = g_Options.Menu.Opened;
+			ImGui::GetIO().MouseDrawCursor = (g_Options.Menu.Opened);
 
 			ImGui_ImplDX9_NewFrame();
 
 			if (g_Options.Menu.Opened)
 			{
 				prometheus::mainWindow();
+
+				if (g_Options.Skinchanger.SkinFilter)
+					SkinFilter();
 			}
 
 			if (g_Options.Misc.SpecList)
-			{
 				speclist();
-			}
 
 			if (g_Options.Misc.radarwindow)
-			{
 				DrawRadar();
-			}
 
 			ImGui::Render();
+
+			pDevice->SetRenderState(D3DRS_COLORWRITEENABLE, colorwrite);
+			pDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, srgbwrite);
+		}
 
 		return hooks::d3d.get_original<EndScene_t>(42)(pDevice);
 	}

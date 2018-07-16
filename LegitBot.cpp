@@ -92,7 +92,7 @@ void legitbot::triggerbot(CInput::CUserCmd *cmd, C_BaseEntity* local, CBaseComba
 
 	Vector CrosshairForward;
 	AngleVectors(ViewAngles, &CrosshairForward);
-	CrosshairForward *= weapon->GetCSWpnData()->m_fRange;
+	CrosshairForward *= weapon->GetCSWpnData()->range;
 
 
 	Vector TraceSource = local->GetEyePosition();
@@ -248,7 +248,7 @@ bool legitbot::hit_chance(C_BaseEntity* local, CInput::CUserCmd* cmd, CBaseComba
 	weapon->UpdateAccuracyPenalty(weapon);
 
 	auto eyes = local->GetEyePosition();
-	auto flRange = weapon->GetCSWpnData()->m_fRange;
+	auto flRange = weapon->GetCSWpnData()->range;
 
 	for (int i = 0; i < max_traces; i++) {
 		RandomSeed(i + 1);

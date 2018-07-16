@@ -3,11 +3,6 @@
 #include "Listener.h"
 #include "WelcomeMessage.h"
 
-UCHAR szFileSys[255], szVolNameBuff[255];
-DWORD dwMFL, dwSysFlags;
-DWORD dwSerial;
-LPCTSTR szHD = "C:\\";
-
 namespace hooks
 {
     vfunc_hook panel;
@@ -24,10 +19,9 @@ namespace hooks
 
     void initialize()
     {
-		GetVolumeInformation(szHD, (LPTSTR)szVolNameBuff, 255, &dwSerial, &dwMFL, &dwSysFlags, (LPTSTR)szFileSys, 255);
         client.setup(g_CHLClient);
-        client.hook_index(36, hkFrameStageNotify);
-        client.hook_index(21, hkCreateMove);
+        client.hook_index(37, hkFrameStageNotify);
+        client.hook_index(22, hkCreateMove);
 
 
         clientmode.setup(g_ClientMode);
@@ -61,7 +55,6 @@ namespace hooks
 		g_CVar->ConsoleColorPrintf(Color(255, 0, 0), "[Promethe.us] ");
 		Sleep(100);
 		g_Engine->ClientCmd_Unrestricted("echo has successfully injected.\n");
-		PlaySoundA(WelcomeMessage, NULL, SND_ASYNC | SND_MEMORY);
 		
 
 		window = FindWindow("Valve001", NULL);

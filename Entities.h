@@ -124,106 +124,39 @@ struct CHudTexture
 	int		iPosX[4];			//0x009C
 }; //Size=0x00AC
 class CCStrike15ItemDefinition;
-class CSWeaponInfo
-{
+class CSWeaponInfo {
 public:
-
-	virtual ~CSWeaponInfo() {};
-	/*Parse(KeyValues *, char const*)
-	RefreshDynamicParameters(void)
-	GetPrimaryClipSize(C_EconItemView const*, int, float)const
-	GetSecondaryClipSize(C_EconItemView const*, int, float)const
-	GetDefaultPrimaryClipSize(C_EconItemView const*, int, float)const
-	GetDefaultSecondaryClipSize(C_EconItemView const*, int, float)const
-	GetPrimaryReserveAmmoMax(C_EconItemView const*, int, float)const
-	GetSecondaryReserveAmmoMax(C_EconItemView const*, int, float)const*/
-
-	char* m_szWeaponName; //0x0004 
-	char pad_0x0008[0x8]; //0x0008
-	CCStrike15ItemDefinition* m_pItemDefinition; //0x0010 
-	int m_iMaxClip1; //0x0014 
-	char pad_0x0018[0xC]; //0x0018
-	int m_iMaxAmmo; //0x0024 
-	char pad_0x0028[0x4]; //0x0028
-	char* m_szWorldModel; //0x002C 
-	char* m_szViewModel; //0x0030 
-	char* m_szDroppedModel; //0x0034 
-	char pad_0x0038[0x4]; //0x0038
-	char* N0000054E; //0x003C 
-	char pad_0x0040[0x38]; //0x0040
-	char* N0000055D; //0x0078 
-	char pad_0x007C[0x4]; //0x007C
-	char* m_szAmmoType; //0x0080 
-	char pad_0x0084[0x4]; //0x0084
-	char* m_szLocalizedName; //0x0088 
-	char pad_0x008C[0x3C]; //0x008C
-	int m_eWeaponType; //0x00C8 
-	int m_iPrice; //0x00CC 
-	char pad_0x00D0[0x4]; //0x00D0
-	char* m_szAnimationPrefix; //0x00D4 
-	char pad_0x00D8[0x14]; //0x00D8
-	int m_iDamage; //0x00EC 
-	float m_fArmorRatio; //0x00F0 
-	char pad_0x00F4[0x4]; //0x00F4
-	float m_fPenetration; //0x00F8 
-	char pad_0x00FC[0x8]; //0x00FC
-	float m_fRange; //0x0104 
-	float m_fRangeModifier; //0x0108 
-	char pad_0x010C[0x10]; //0x010C
-	unsigned char m_bHasSilencer; //0x011C 
-	char pad_0x011D[0x10B]; //0x011D
-	unsigned char m_bHasBurstmode; //0x0228 
-	unsigned char m_bIsRevolver; //0x0229 
-	char pad_0x022A[0x1BE]; //0x022A
-};
-class CCSWeaponInfo
-{
-public:
-	float GetPen()
-	{
-		return *(float*)((DWORD)this + (DWORD)0x0f8);
-	}
-
-	int GetDamage()
-	{
-		return *(int*)((DWORD)this + (DWORD)0x0EC);
-	}
-
-	int GetMaxClip()
-	{
-		return *(int*)((DWORD)this + (DWORD)0x014);
-	}
-
-	float** GetRecoilTable()
-	{
-		return *(float***)((DWORD)this + (DWORD)0xA54);
-	}
-
-	float GetRange()
-	{
-		return *(float*)((DWORD)this + (DWORD)0x104);
-	}
-
-	float GetRangeModifier()
-	{
-		return *(float*)((DWORD)this + (DWORD)0x108);
-	}
-
-	float GetArmorRatio()
-	{
-		return *(float*)((DWORD)this + (DWORD)0x0F0);
-	}
-
-	float GetStandInacc()
-	{
-		return *(float*)((DWORD)this + (DWORD)0x9E0);
-	}
-
-	float GetJumpInacc()
-	{
-		return *(float*)((DWORD)this + (DWORD)0x9E8);
-	}
-};
+	char _0x0000[20];
+	__int32 max_clip;			//0x0014 
+	char _0x0018[12];
+	__int32 max_reserved_ammo;	//0x0024 
+	char _0x0028[96];
+	char* hud_name;				//0x0088 
+	char* weapon_name;
+	char _0x0090[56];
+	__int32 type;
+	char _0x00CC[4];
+	__int32 price;
+	__int32 reward;
+	char _0x00D8[20];
+	BYTE full_auto;				//0x00EC 
+	char _0x00ED[3];
+	__int32 damage;				//0x00F0 
+	float armor_ratio;			//0x00F4 
+	__int32 bullets;			//0x00F8 
+	float penetration;			//0x00FC 
+	char _0x0100[8];
+	float range;				//0x0108 
+	float range_modifier;		//0x010C 
+	char _0x0110[16];
+	BYTE silencer;				//0x0120 
+	char _0x0121[15];
+	float max_speed;			//0x0130 
+	float max_speed_alt;		//0x0134 
+	char _0x0138[76];
+	__int32 recoil_seed;		//0x0184 
+	char _0x0188[32];
+};// Size=0x01A8
 
 enum class ClassID 
 {
@@ -504,7 +437,7 @@ enum CSGOHitboxID : int
 	LeftLowerArm
 };
 
-enum class ItemDefinitionIndexx : int
+enum class ItemDefinitionIndexx : short
 {
 	ITEM_NONE = 0,
 	WEAPON_DEAGLE = 1,
@@ -660,13 +593,13 @@ class CBaseAttributableItem
 {
 public:
 
-	int* ItemDefinitionIndex()
+	short* ItemDefinitionIndex()
 	{
-		return (int*)((uintptr_t)this + 0x1D8);
+		return (short*)((uintptr_t)this + 0x1D8);
 	}
-	int GetItemDefinitionIndex()
+	short GetItemDefinitionIndex()
 	{
-		return *(int*)((uintptr_t)this + 0x1D8);
+		return *(short*)((uintptr_t)this + 0x1D8);
 	}
 	int* ItemIDHigh()
 	{

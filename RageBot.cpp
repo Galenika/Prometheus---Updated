@@ -117,7 +117,7 @@ bool ragebot::hit_chance(C_BaseEntity* local, CInput::CUserCmd* cmd, CBaseCombat
 	weapon->UpdateAccuracyPenalty(weapon);
 
 	auto eyes = local->GetEyePosition();
-	auto flRange = weapon->GetCSWpnData()->m_fRange;
+	auto flRange = weapon->GetCSWpnData()->range;
 
 	for (int i = 0; i < max_traces; i++) {
 		RandomSeed(i + 1);

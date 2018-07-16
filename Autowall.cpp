@@ -125,11 +125,11 @@ bool SimulateFireBullet(C_BaseEntity* entity, C_BaseEntity *local, CBaseCombatWe
 	data.trace_length = 0.0f;
 	auto *wpn_data = weapon->GetCSWpnData();
 
-	data.current_damage = static_cast<float>(wpn_data->m_iDamage);
+	data.current_damage = static_cast<float>(wpn_data->damage);
 
 	while ((data.penetrate_count > 0) && (data.current_damage >= 1.0f))
 	{
-		data.trace_length_remaining = wpn_data->m_fRange - data.trace_length;
+		data.trace_length_remaining = wpn_data->range - data.trace_length;
 
 		Vector end = data.src + data.direction * data.trace_length_remaining;
 
@@ -145,8 +145,8 @@ bool SimulateFireBullet(C_BaseEntity* entity, C_BaseEntity *local, CBaseCombatWe
 				|| g_Options.Ragebot.FriendlyFire))
 		{
 			data.trace_length += (float)(data.enter_trace.fraction * data.trace_length_remaining);
-			data.current_damage *= (float)(pow(wpn_data->m_fRangeModifier, data.trace_length * 0.002));
-			ScaleDamage(data.enter_trace.hitgroup, data.enter_trace.m_pEnt, wpn_data->m_fArmorRatio, data.current_damage);
+			data.current_damage *= (float)(pow(wpn_data->range_modifier, data.trace_length * 0.002));
+			ScaleDamage(data.enter_trace.hitgroup, data.enter_trace.m_pEnt, wpn_data->armor_ratio, data.current_damage);
 
 			return true;
 		}
@@ -165,7 +165,7 @@ bool HandleBulletPenetration(CSWeaponInfo *wpn_data, FireBulletData &data)
 
 
 	data.trace_length += data.enter_trace.fraction * data.trace_length_remaining;
-	data.current_damage *= (float)(pow(wpn_data->m_fRangeModifier, (data.trace_length * 0.002)));
+	data.current_damage *= (float)(pow(wpn_data->range_modifier, (data.trace_length * 0.002)));
 
 	if ((data.trace_length > 3000.f) || (enter_surf_penetration_mod < 0.1f))
 		data.penetrate_count = 0;
@@ -204,7 +204,7 @@ bool HandleBulletPenetration(CSWeaponInfo *wpn_data, FireBulletData &data)
 	}
 
 	float v34 = fmaxf(0.f, 1.0f / combined_penetration_modifier);
-	float v35 = (data.current_damage * final_damage_modifier) + v34 * 3.0f * fmaxf(0.0f, (3.0f / wpn_data->m_fPenetration) * 1.25f);
+	float v35 = (data.current_damage * final_damage_modifier) + v34 * 3.0f * fmaxf(0.0f, (3.0f / wpn_data->penetration) * 1.25f);
 	float thickness = VectorLength(trace_exit.endpos - data.enter_trace.endpos);
 
 	thickness *= thickness;
@@ -267,7 +267,7 @@ bool CanWallbang(int &dmg)
 	FireBulletData data = FireBulletData(local->GetEyePosition());
 	data.filter = CTraceFilter();
 	data.filter.pSkip = local;
-	auto flRange = weapon->GetCSWpnData()->m_fRange;
+	auto flRange = weapon->GetCSWpnData()->range;
 	Vector EyeAng;
 	g_Engine->GetViewAngles(EyeAng);
 
@@ -293,9 +293,9 @@ bool CanWallbang(int &dmg)
 	if (!weaponData)
 		return false;
 
-	data.current_damage = (int)weaponData->m_iDamage;
+	data.current_damage = (int)weaponData->damage;
 
-	data.trace_length_remaining = weaponData->m_fRange;
+	data.trace_length_remaining = weaponData->range;
 
 	Vector end = data.src + data.direction * data.trace_length_remaining;
 
