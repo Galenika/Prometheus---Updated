@@ -116,11 +116,11 @@ inline void RankReveal(CInput::CUserCmd* cmd)
 {
 	if (cmd->buttons & IN_SCORE && g_Options.Misc.ServerRankRevealAll)
 	{
-		static auto ServerRankRevealAll = (bool(__cdecl*)(int*))((PDWORD)U::FindPattern("client.dll", (PBYTE)"\x55\x8B\xEC\x8B\x0D\x00\x00\x00\x00\x68\x00\x00\x00\x00", "xxxxx????x????"));
-		if (g_Options.Misc.ServerRankRevealAll)
-		{
-			static int fArray[3] = { 0,0,0 };
-			ServerRankRevealAll(fArray);
-		}
+		using ServerRankRevealAll = bool(__cdecl*)(int*);
+		static auto serverRankRevealAll = reinterpret_cast<ServerRankRevealAll>(U::FindPatternIDA(XorStr("client.dll"), XorStr("55 8B EC 8B 0D ? ? ? ? 68")));
+
+		int array[3] = { 0, 0, 0 };
+		serverRankRevealAll(array);
+
 	}
 }

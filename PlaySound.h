@@ -4,7 +4,6 @@ typedef void(__thiscall* play_sound_t)(void*, const char*);
 
 void __stdcall hkPlaySound(const char* szFileName)
 {
-
 	static auto ofunc = hooks::surface.get_original<play_sound_t>(82);
 	//Call original PlaySound
 	ofunc(g_Surface, szFileName);
@@ -16,7 +15,6 @@ void __stdcall hkPlaySound(const char* szFileName)
 
 		if (strstr(szFileName, "UI/competitive_accept_beep.wav"))
 		{
-
 			static auto CServerConfirmedReservationCheckCallback__IsReady
 				= (void(__cdecl*)(void))U::pattern_scan(
 					GetModuleHandleW(L"client.dll"),

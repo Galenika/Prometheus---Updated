@@ -333,9 +333,6 @@
     <ClInclude Include="DoPostScreenSpaceEffects.h">
       <Filter>Hooks</Filter>
     </ClInclude>
-    <ClInclude Include="WelcomeMessage.h">
-      <Filter>Hacks\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="Main.h">
       <Filter>Main</Filter>
     </ClInclude>

@@ -1,7 +1,6 @@
 #include "HookIncludes.h"
 #include "HooksList.h"
 #include "Listener.h"
-#include "WelcomeMessage.h"
 
 namespace hooks
 {
@@ -48,12 +47,12 @@ namespace hooks
 		initializeskins();
 
 		g_Engine->ClientCmd_Unrestricted("toggleconsole");
-		Sleep(100);
+		Sleep(50);
 		g_Engine->ClientCmd_Unrestricted("clear");
-		Sleep(100);
+		Sleep(50);
 
 		g_CVar->ConsoleColorPrintf(Color(255, 0, 0), "[Promethe.us] ");
-		Sleep(100);
+		Sleep(50);
 		g_Engine->ClientCmd_Unrestricted("echo has successfully injected.\n");
 		
 
@@ -71,8 +70,6 @@ namespace hooks
 
 
 		item_purchase::singleton()->initialize();
-
-
     }
 
     void cleanup()

@@ -5,13 +5,13 @@
 #include "UtlVector.hpp"
 
 
-template< typename Function > Function call_vfunc(PVOID Base, DWORD Index)
-{
-	PDWORD* VTablePointer = (PDWORD*)Base;
-	PDWORD VTableFunctionBase = *VTablePointer;
-	DWORD dwAddress = VTableFunctionBase[Index];
-	return (Function)(dwAddress);
+template<typename FuncType>
+inline FuncType call_vfunc(void* ppClass, unsigned int index) {
+	unsigned int* pVTable = *(unsigned int**)ppClass;
+	unsigned int dwAddress = pVTable[index];
+	return (FuncType)(dwAddress);
 }
+
 template <typename T> __forceinline T GetVirtualFunction(PVOID Base, DWORD Index)
 {
 	return (T)((uint32_t *) *(uint32_t **)Base)[Index];
