@@ -595,11 +595,11 @@ public:
 
 	short* ItemDefinitionIndex()
 	{
-		return (short*)((uintptr_t)this + 0x1D8);
+		return (short*)((uintptr_t)this + 0x1EA); // https://www.unknowncheats.me/forum/2180327-post252.html
 	}
 	short GetItemDefinitionIndex()
 	{
-		return *(short*)((uintptr_t)this + 0x1D8);
+		return *(short*)((uintptr_t)this + 0x1EA); // https://www.unknowncheats.me/forum/2180327-post252.html
 	}
 	int* ItemIDHigh()
 	{
